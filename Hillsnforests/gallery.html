@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gallery – Explore the scenic beauty of HillsnForests resorts in Kodaikanal.">
+  <meta name="keywords" content="HillsnForests, gallery, resort images, Wild Mist, Wild Nest, Kodaikanal photos">
+  <meta name="author" content="HillsnForests">
+  <title>Gallery – HillsnForests</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e8fef7;
+      color: #0f2e28;
+      line-height: 1.6;
+    }
+
+    /* ✅ Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .logo img {
+      height: 42px;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background-color: #11324d;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      position: relative;
+      color: #065f46;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 6px 10px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 100%;
+      height: 2px;
+      background: #2dc997;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links li a:hover::after,
+    .nav-links li a.active::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: #002b52;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        background: #ffffff;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 70%;
+        padding: 30px 20px;
+        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li a {
+        color: #0f172a;
+      }
+    }
+
+    /* ✅ Hero */
+    .hero {
+      background: linear-gradient(to right, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)), url('assets/hero.jpeg') center/cover no-repeat;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    /* ✅ Gallery */
+    .gallery-section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ✅ Footer */
+    .footer {
+      background: #002b52;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+    }
+
+    .footer a {
+      color: #4dc6ff;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ✅ Animation */
+    .animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="assets/logo.svg" alt="HillsnForests Logo" /></a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="wildmist.html">Wild Mist</a></li>
+      <li><a href="wildnest.html">Wild Nest</a></li>
+      <li><a href="offers.html">Offers</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="policy.html">Policy</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ✅ Hero -->
+  <header class="hero">
+    <div class="overlay">
+      <h1>Resort Gallery</h1>
+      <p>Discover the scenic views, comfort, and nature all around Wild Mist & Wild Nest.</p>
+    </div>
+  </header>
+
+  <!-- ✅ Gallery Section -->
+  <section class="gallery-section animate">
+    <div class="gallery-grid">
+      <img src="assets/heropage.jpeg" alt="Resort View" />
+      <img src="assets/balcony.jpeg" alt="Forest Stay" />
+      <img src="assets/Balcony2.jpeg" alt="Hill Stay" />
+      <img src="assets/herobanner1.jpeg" alt="Cabin Stay" />
+      <img src="assets/Morning mist.jpeg" alt="Nature Walk" />
+      <img src="assets/wildmist.jpeg" alt="Luxury Rooms" />
+      <img src="assets/sunrise 1.jpeg" alt="Eco Stay" />
+      <img src="assets/side view.jpeg" alt="Mountain View" />
+    </div>
+  </section>
+
+  <!-- ✅ Footer -->
+  <footer class="footer">
+    <div>
+      <h3>HillsnForests</h3>
+      <p>Near Checkpost, Kodaikanal, Tamil Nadu</p>
+      <p>Email: hillsnforests@gmail.com | Phone: +91 88838 88317</p>
+      <div style="margin-top: 10px;">
+        <a href="index.html">Home</a>
+        <a href="offers.html">Offers</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ✅ Script -->
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("navLinks");
+      const burger = document.querySelector(".hamburger");
+      nav.classList.toggle("active");
+      burger.classList.toggle("active");
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    });
+
+    document.querySelectorAll(".animate").forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+</html>
