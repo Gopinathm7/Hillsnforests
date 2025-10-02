@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HillsnForests – resort properties in Kodaikanal. Wild Mist & Wild Nest. Nature, luxury, offers." />
+  <title>HillsnForests – Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #11324d;
+      --accent: #00ffd5;
+      --light: #e0f7ff;
+      --blue: #5ec1ff;
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+      color: var(--primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      height: 70px;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .navbar img {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      position: relative;
+      padding: 8px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--accent);
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===== Hero Slider ===== */
+    .hero-slider {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.1));
+    }
+
+    .slide .content {
+      position: absolute;
+      bottom: 20%;
+      left: 8%;
+      color: white;
+      max-width: 600px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .slide.active .content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide h1 {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+    }
+
+    /* ===== Intro ===== */
+    section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .intro {
+      text-align: center;
+    }
+
+    .intro h2 {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+    }
+
+    .intro p {
+      max-width: 700px;
+      margin: auto;
+      font-size: 1.2rem;
+    }
+
+    /* ===== Teasers ===== */
+    .teasers {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      margin-top: 40px;
+    }
+
+    .teaser-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .teaser-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .teaser-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .info {
+      padding: 20px;
+    }
+
+    .info h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .info a {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--blue);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    /* ===== Offers ===== */
+    .offer-teaser {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .offer-teaser .btn {
+      display: inline-block;
+      margin-top: 20px;
+      background: var(--blue);
+      color: white;
+      padding: 14px 30px;
+      font-weight: 600;
+      border-radius: 8px;
+      animation: pulse 2s infinite;
+      text-decoration: none;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0,212,255,0.4); }
+      70% { box-shadow: 0 0 0 12px rgba(0,212,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,212,255,0); }
+    }
+
+    /* ===== Gallery ===== */
+    .gallery-modern {
+      text-align: center;
+    }
+
+    .masonry-gallery {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .gallery-item img {
+      width: 100%;
+      border-radius: 12px;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ===== Testimonials ===== */
+    .testimonials {
+      text-align: center;
+    }
+
+    .testi-card {
+      background: #d3eaff;
+      margin: 20px auto;
+      padding: 24px;
+      border-radius: 10px;
+      max-width: 700px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+
+    .footer a {
+      color: #aee8ff;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: white;
+    }
+
+    .social-icons a {
+      color: white;
+      margin: 0 10px;
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .slide h1 { font-size: 2rem; }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+    }
+
+    /* ===== Hamburger ===== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 3px;
+  background: #11324d;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+/* Cross animation */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: #fdfcfc;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    transition: right 0.4s ease;
+    z-index: 1000;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links li a {
+    font-size: 1.2rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+  <div class="logo">
+    <img src="assets/logo.svg" alt="Logo" />
+  </div>
+
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="wildmist.html">Wild Mist</a></li>
+    <li><a href="wildnest.html">Wild Nest</a></li>
+    <li><a href="offers.html">Offers</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="policy.html">Policy</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+
+  <!-- Hero Slider -->
+  <header class="hero-slider" id="heroSlider"></header>
+
+  <!-- Welcome Section -->
+  <section class="intro">
+    <h2>Welcome to HillsnForests</h2>
+    <p>Escape into nature’s lap with luxurious stays nestled in the hills of Kodaikanal. Discover Wild Mist up in the hills and Wild Nest hidden deeper in the forests.</p>
+  </section>
+
+  <!-- Teasers -->
+  <section class="teasers">
+    <div class="teaser-card">
+      <img src="assets/wildmist.jpeg" alt="Wild Mist" />
+      <div class="info">
+        <h3>Wild Mist</h3>
+        <p>High-altitude resort with misty views, trekking, bonfire & nature walks.</p>
+        <a href="#">Explore</a>
+      </div>
+    </div>
+    <div class="teaser-card">
+      <img src="assets/heropage.jpeg" alt="Wild Nest" />
+      <div class="info">
+        <h3>Wild Nest</h3>
+        <p>Secluded forest retreat with serene ambience, bird‑watching & calm trails.</p>
+        <a href="#">Explore</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offers -->
+  <section class="offer-teaser">
+    <h2>Special Offers</h2>
+    <p>Explore limited-time deals and seasonal discounts crafted just for you.</p>
+    <a href="#" class="btn">Claim Your Offer</a>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery-modern">
+    <h2>Gallery</h2>
+    <div class="masonry-gallery">
+      <div class="gallery-item"><img src="assets/herobanner1.jpeg" alt="Gallery 1"></div>
+      <div class="gallery-item"><img src="assets/heropage.jpeg" alt="Gallery 2"></div>
+      <div class="gallery-item"><img src="assets/offershero.png" alt="Gallery 3"></div>
+      <div class="gallery-item"><img src="assets/policy.jpeg" alt="Gallery 4"></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What Guests Say</h2>
+    <div class="testi-card">
+      <p>"One of the most serene stays I've had. The nature, the quiet, the service — everything was perfect."</p>
+      <strong>- A Guest</strong>
+    </div>
+    <div class="testi-card">
+      <p>"Wild Mist has an unmatched view. Woke up to mist, birds chirping. A dream stay."</p>
+      <strong>- B Guest</strong>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p><strong>HillsnForests</strong> – Kodaikanal Hills, Tamil Nadu</p>
+    <p>Email: info@hillsnforests.com | Phone: +91 88838 88317</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <p class="footer-links">
+      <a href="#">Home</a> |
+      <a href="#">Offers</a> |
+      <a href="#">Contact</a>
+    </p>
+  </footer>
+
+  <script>
+    // Hero Slider
+    const slides = [
+      { title: "Welcome to Wild Mist", text: "High in the hills, wrapped in mist and serenity.", image: "assets/sunrise 1.jpeg" },
+      { title: "Discover Wild Nest", text: "Deep forest retreat, your private sanctuary.", image: "assets/offershero.png" },
+      { title: "Special Offers Await", text: "Seasonal deals curated just for you.", image: "assets/policy.jpeg" }
+    ];
+
+    function toggleMenu() {
+  const navLinks = document.getElementById("navLinks");
+  const burger = document.querySelector(".hamburger");
+
+  navLinks.classList.toggle("active");
+  burger.classList.toggle("active");
+}
+
+
+    let current = 0;
+    const slider = document.getElementById("heroSlider");
+
+    function renderSlides() {
+      slider.innerHTML = slides.map((slide, index) => `
+        <div class="slide ${index === 0 ? 'active' : ''}" style="background-image: url('${slide.image}')">
+          <div class="overlay"></div>
+          <div class="content"><h1>${slide.title}</h1><p>${slide.text}</p></div>
+        </div>
+      `).join('');
+    }
+
+    function nextSlide() {
+      const allSlides = document.querySelectorAll(".slide");
+      allSlides[current].classList.remove("active");
+      current = (current + 1) % slides.length;
+      allSlides[current].classList.add("active");
+    }
+
+    renderSlides();
+    setInterval(nextSlide, 5000);
+  </script>
+
+</body>
+</html>
